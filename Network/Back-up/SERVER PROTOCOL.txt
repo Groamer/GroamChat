@@ -1,0 +1,18 @@
+-PROTOCOL DOCUMENT-
+
+
+	Data is send in segments seperated by pipelines: '|'.
+	Example: |start|sender|receiver|command|data|end|
+
+
+	-PROTOCOLS-
+	start:      @GroamChat@
+	sender:     username of the sender
+	receiver:   username of the receiver
+        command:    0-send clientdata to server
+                    1-message to person
+                    2-message to all connected clients
+                    3-send available clients
+                    4-.....
+	data:       data handled by the clients
+	end:        #GroamChat#

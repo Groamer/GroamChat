@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GroamChat</string>
+    <string name="settings_setName">Set username</string>
+    <string name="settings_information">About GroamChat</string>
+</resources>
