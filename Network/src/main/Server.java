@@ -19,6 +19,7 @@ public class Server
     final private String messageProtocol = "1";
     final private String messageAllProtocol = "2";
     final private String sendAvailableClientsProtocol = "3";
+    final private String imageProtocol = "5";
     private ServerSocket server;
     private List<ServerClient> serverClients;
 
@@ -159,6 +160,11 @@ public class Server
                                 
                             case 4:
                                 removeClient(dataSegments[1]);
+                                break;
+                            
+                            case 5:
+                                sendImage(dataSegments[1], dataSegments[2], dataSegments[4]);
+                                break;
                         }
                     }
                 }
@@ -232,6 +238,27 @@ public class Server
                 {
                     if(!serverClients.get(i).getClientName().equals(sender))
                         serverClients.get(i).sendData(data);
+                }
+            }
+        }.start();
+    }
+    
+    private void sendImage(String sender, String receiver, String image)
+    {
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                String data = startProtocol + "|" + sender + "|" + receiver + 
+                    "|" + imageProtocol + "|" + image + "|" + endProtocol;
+                
+                for(int i = 0; i < serverClients.size(); i ++)
+                {
+                    if(serverClients.get(i).getClientName().equals(receiver))
+                    {
+                        serverClients.get(i).sendData(data);
+                    }
                 }
             }
         }.start();

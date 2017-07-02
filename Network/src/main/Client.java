@@ -10,6 +10,9 @@ Just make sure you credit me, and I'll be fine!
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Client
@@ -57,11 +60,11 @@ public class Client
     //send userdata to server
     private void sendUserData()
     {
-        String data = startProtocol + "|" + clientName + "|" + null +
-                "|" + sendClientDataProtocol + "|" + null + "|" + endProtocol;
-
         try
         {
+            String data = startProtocol + "|" + clientName + "|" + null +
+                "|" + sendClientDataProtocol + "|" + null + "|" + endProtocol;
+            
             output.writeUTF(data);
             output.flush();
         }
@@ -73,11 +76,11 @@ public class Client
 
     public void sendMessage(String message, String receiver)
     {
-        String data = startProtocol + "|" + clientName + "|" + receiver +
-                "|" + messageProtocol + "|" + message + "|" + endProtocol;
-
         try
         {
+            String data = startProtocol + "|" + clientName + "|" + receiver +
+                "|" + messageProtocol + "|" + message + "|" + endProtocol;
+            
             output.writeUTF(data);
             output.flush();
         }
@@ -89,11 +92,31 @@ public class Client
 
     public void sendMessageAll(String message)
     {
-        String data = startProtocol + "|" + clientName + "|" + null +
-                "|" + messageAllProtocol + "|" + message + "|" + endProtocol;
-
         try
         {
+            String data = startProtocol + "|" + clientName + "|" + null +
+                "|" + messageAllProtocol + "|" + message + "|" + endProtocol;
+            
+            output.writeUTF(data);
+            output.flush();
+        }
+        catch(Exception e)
+        {
+            System.out.println(clientName + ": " + e);
+        }
+    }
+    
+    public void sendImage(String imageURL, String receiver)
+    {
+        try
+        {
+            Path imageSource = Paths.get(imageURL);
+            byte[] imageBytes = Files.readAllBytes(imageSource);
+            String imageString = new String(imageBytes, "UTF-8");
+            
+            String data = startProtocol + "|" + clientName + "|" + receiver +
+                "|" + messageAllProtocol + "|" + imageString + "|" + endProtocol;
+            
             output.writeUTF(data);
             output.flush();
         }
@@ -163,7 +186,7 @@ public class Client
         messages.add("(PUBLIC MESSAGE) " + sender + ": " + message);
     }
     
-    private void receivePicture(String sender, String picture)
+    private void receiveImage(String sender, String image)
     {
         
     }

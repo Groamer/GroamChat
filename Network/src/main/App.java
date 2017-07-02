@@ -18,9 +18,7 @@ public class App
         Client sanne = new Client("Sanne");
         Client marchell = new Client("Marchell");
         
-        tom.sendMessage("ik ben Tom", "Sanne");
-        sanne.sendMessage("Ik ben geen tom", "Tom");
-        
-        marchell.sendMessageAll("hoi");
+        tom.sendImage("D:\\Users\\Tom Remeeus\\Pictures\\awesomedsderp\\kek.png", "Sanne");
+        tom.sendMessage("test", "Sanne");
     }
 }
